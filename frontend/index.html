@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CargoProject</title>
+    <!-- Иконка сайта -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚚</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Кнопка смены темы -->
+    <button class="theme-toggle" onclick="toggleTheme()" title="Сменить тему">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="app">
+        <!-- Боковая навигация -->
+        <aside class="sidebar">
+            <div class="brand" onclick="loadSection('dashboard')">
+                <span>CargoProject</span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-pie"></i> Главная
+                </a>
+                <a href="#" class="nav-item" data-section="cargo">
+                    <i class="fas fa-box-open"></i> Грузы
+                </a>
+                <a href="#" class="nav-item" data-section="clients">
+                    <i class="fas fa-users"></i> Клиенты
+                </a>
+                <a href="#" class="nav-item" data-section="transports">
+                    <i class="fas fa-truck"></i> Транспорт
+                </a>
+                <a href="#" class="nav-item" data-section="routes">
+                    <i class="fas fa-route"></i> Маршруты
+                </a>
+                <a href="#" class="nav-item" data-section="shipments">
+                    <i class="fas fa-shipping-fast"></i> Перевозки
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="http://127.0.0.1:8000/admin/" target="_blank" class="admin-link">
+                    <i class="fas fa-cog"></i> Админ-панель
+                </a>
+            </div>
+        </aside>
+
+        <!-- Основной контент -->
+        <main class="main">
+            <!-- Dashboard -->
+            <section id="dashboard" class="section active">
+                <header class="section-header">
+                    <h1><i class="fas fa-home"></i> Панель управления</h1>
+                    <p>Обзор системы грузоперевозок</p>
+                </header>
+                <div class="stats-grid">
+                    <div class="stat-card" onclick="loadSection('cargo')">
+                        <div class="stat-icon square cargo"><i class="fas fa-box"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="cargo-count">—</span>
+                            <span class="stat-label">Грузов</span>
+                        </div>
+                    </div>
+                    <div class="stat-card" onclick="loadSection('clients')">
+                        <div class="stat-icon square clients"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="clients-count">—</span>
+                            <span class="stat-label">Клиентов</span>
+                        </div>
+                    </div>
+                    <div class="stat-card" onclick="loadSection('transports')">
+                        <div class="stat-icon square transports"><i class="fas fa-truck"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="transports-count">—</span>
+                            <span class="stat-label">Транспорта</span>
+                        </div>
+                    </div>
+                    <div class="stat-card" onclick="loadSection('shipments')">
+                        <div class="stat-icon square shipments"><i class="fas fa-shipping-fast"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="shipments-count">—</span>
+                            <span class="stat-label">Перевозок</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-wide-grid">
+                    <div class="recent-shipments">
+                        <h3><i class="fas fa-clock"></i> Последние перевозки</h3>
+                        <div id="recent-shipments-list" class="recent-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+                    </div>
+                    <div class="active-routes">
+                        <h3><i class="fas fa-map-marked-alt"></i> Популярные маршруты</h3>
+                        <div id="popular-routes-list" class="routes-list"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ГРУЗЫ -->
+            <section id="cargo" class="section">
+                <header class="section-header">
+                    <h1><i class="fas fa-box-open"></i> Грузы</h1>
+                </header>
+                <div class="content-card">
+                    <div id="cargo-table" class="table-wrapper"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+                    <div class="table-actions-bottom">
+                        <button class="btn btn-primary" onclick="openCreateModal('cargo')"><i class="fas fa-plus"></i> Создать груз</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- КЛИЕНТЫ -->
+            <section id="clients" class="section">
+                <header class="section-header">
+                    <h1><i class="fas fa-users"></i> Клиенты</h1>
+                </header>
+                <div class="content-card">
+                    <div id="clients-table" class="table-wrapper"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+                    <div class="table-actions-bottom">
+                        <button class="btn btn-primary" onclick="openCreateModal('clients')"><i class="fas fa-plus"></i> Создать клиента</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ТРАНСПОРТ -->
+            <section id="transports" class="section">
+                <header class="section-header">
+                    <h1><i class="fas fa-truck"></i> Транспорт</h1>
+                </header>
+                <div class="content-card">
+                    <div id="transports-table" class="table-wrapper"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+                    <div class="table-actions-bottom">
+                        <button class="btn btn-primary" onclick="openCreateModal('transports')"><i class="fas fa-plus"></i> Добавить транспорт</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- МАРШРУТЫ -->
+            <section id="routes" class="section">
+                <header class="section-header">
+                    <h1><i class="fas fa-route"></i> Маршруты</h1>
+                </header>
+                <div class="content-card">
+                    <div id="routes-table" class="table-wrapper"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+                    <div class="table-actions-bottom">
+                        <button class="btn btn-primary" onclick="openCreateModal('routes')"><i class="fas fa-plus"></i> Создать маршрут</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ПЕРЕВОЗКИ -->
+            <section id="shipments" class="section">
+                <header class="section-header">
+                    <h1><i class="fas fa-shipping-fast"></i> Перевозки</h1>
+                </header>
+                <div class="content-card">
+                    <div id="shipments-table" class="table-wrapper"><div class="loading"><i class="fas fa-spinner fa-spin"></i></div></div>
+                    <div class="table-actions-bottom">
+                        <button class="btn btn-primary" onclick="openCreateModal('shipments')"><i class="fas fa-plus"></i> Создать перевозку</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО СОЗДАНИЯ -->
+    <div id="createModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCreateModal()">&times;</span>
+            <h2 id="modal-title">Создание</h2>
+            <form id="createForm">
+                <div id="modal-fields"></div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateModal()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>ё
