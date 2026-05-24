@@ -151,10 +151,43 @@ class Routes(models.Model):
 
 class Shipments(models.Model):
     tr_id = models.AutoField(primary_key=True, verbose_name='Код перевозки')
-    cargo = models.ForeignKey(Cargo, models.DO_NOTHING, blank=True, null=True, verbose_name='Груз')
-    transport = models.ForeignKey('Transports', models.DO_NOTHING, blank=True, null=True, verbose_name='Транспорт')
-    route = models.ForeignKey(Routes, models.DO_NOTHING, blank=True, null=True, verbose_name='Маршрут')
-    client = models.ForeignKey(Dispatchers, models.DO_NOTHING, blank=True, null=True, verbose_name='Диспетчер')
+
+    cargo = models.ForeignKey(
+        Cargo,
+        models.DO_NOTHING,
+        db_column='g_id',
+        blank=True,
+        null=True,
+        verbose_name='Груз'
+    )
+
+    transport = models.ForeignKey(
+        'Transports',
+        models.DO_NOTHING,
+        db_column='t_id',
+        blank=True,
+        null=True,
+        verbose_name='Транспорт'
+    )
+
+    route = models.ForeignKey(
+        Routes,
+        models.DO_NOTHING,
+        db_column='r_id',
+        blank=True,
+        null=True,
+        verbose_name='Маршрут'
+    )
+
+    client = models.ForeignKey(
+        Dispatchers,
+        models.DO_NOTHING,
+        db_column='d_id',
+        blank=True,
+        null=True,
+        verbose_name='Диспетчер'
+    )
+
     tr_date_start = models.DateField(verbose_name='Дата отправки')
     tr_date_end = models.DateField(blank=True, null=True, verbose_name='Дата прибытия')
     tr_status = models.CharField(max_length=20, blank=True, null=True, verbose_name='Статус перевозки')
