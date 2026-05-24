@@ -1,36 +1,23 @@
 services:
-
   db:
     image: postgres:16
-
     container_name: cargo_db
-
     environment:
       POSTGRES_DB: cargo_management
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: BUBLEGYM1
-
     ports:
       - "5432:5432"
-
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   web:
     build: .
-
     container_name: cargo_web
-
     command: python manage.py runserver 0.0.0.0:8000
-
     volumes:
       - .:/app
-
     ports:
       - "8000:8000"
-
     depends_on:
       - db
-
-volumes:
-  postgres_data:
