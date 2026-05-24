@@ -4,6 +4,7 @@ from .serializers import *
 from django.shortcuts import render
 from .models import Shipments
 from rest_framework.viewsets import ModelViewSet
+from drf_yasg.utils import swagger_auto_schema
 
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Clients.objects.all()
